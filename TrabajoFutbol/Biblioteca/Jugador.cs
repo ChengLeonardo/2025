@@ -2,10 +2,10 @@ namespace Biblioteca;
 
 public class Jugador
 {
-    internal double VisionDelJuego;
-    internal double Potencia;
-    internal double VisionDeLosCompanieros;
-    public double HabilidadEnLosPases { get; set; }
+    public double VisionDelJuego{get; internal set;}
+    public double Potencia{get; internal set;}
+    public double VisionDeLosCompanieros{get; internal set;}
+    public double HabilidadEnLosPases {get; internal set;}
 
     public ITipoJugador TipoJugador;
 

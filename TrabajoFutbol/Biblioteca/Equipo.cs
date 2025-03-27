@@ -8,6 +8,16 @@ public class Equipo
     public double Precision { get; set; }
     public double Vision { get; set; }
 
+    public Equipo()
+    {
+        Sesiones = new();
+        Sesion sesionFisica = new SesionFisica();
+        Sesion sesionLirica = new SesionLirica();
+        Sesion sesionTactica = new SesionTactica();
+        Sesiones.Add(sesionFisica);
+        Sesiones.Add(sesionLirica);
+        Sesiones.Add(sesionTactica);
+    }
     public double GetVision()
     {
         return Jugadores.Sum(jugador => jugador.GetVisionGeneral());
@@ -26,5 +36,16 @@ public class Equipo
             .OrderDescending()
             .Take(2)
             .Sum();
+    }
+
+    public void Entrenar()
+    {
+        foreach (Jugador jugador in Jugadores)
+        {
+            foreach(Sesion sesion in Sesiones)
+            {
+                sesion.AplicarAl(jugador);
+            }
+        }
     }
 }
