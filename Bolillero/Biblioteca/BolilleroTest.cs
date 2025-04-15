@@ -7,7 +7,7 @@ namespace Biblioteca;
 
 public class BolilleroTest : IBolillero
 {
-     public List<Bolilla> Bolillas {get;set;} = new List<Bolilla>();
+    public List<Bolilla> Bolillas {get;set;} = new List<Bolilla>();
 
     public BolilleroTest(int cantidadBolillasBolillero)
     {
