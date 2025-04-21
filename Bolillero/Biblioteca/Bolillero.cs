@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 
 namespace Biblioteca;
 
-public class Bolillero : IBolillero
+public class Bolillero
 {
     public List<Bolilla> Bolillas {get;set;} = new List<Bolilla>();
 
-    public Bolillero(int cantidadBolillasBolillero)
+    public ILogica logica { get; init; }
+
+    public Bolillero(int cantidadBolillasBolillero, ILogica logica)
     {
+        this.logica = logica;
         GenerarBolillas(cantidadBolillasBolillero);
     }
 
@@ -24,21 +27,13 @@ public class Bolillero : IBolillero
         }
     }
 
-    public List<Bolilla> GeneradorAzar(int cantidadBolillas)
+    public List<Bolilla> SacarBolillas(int cantidadBolillasASacarEnLaJugada)
     {
-        int limite = Bolillas.Max(bolilla => bolilla.numeroBolilla);
-        List<Bolilla> BolillasSacadas = new();
-        Random rnd = new();
-        for(int i = 1; i <= cantidadBolillas; i++){
-            Bolilla bolillaSacada = new Bolilla(rnd.Next(0, limite));
-            while(BolillasSacadas.Any(bolilla => bolilla.numeroBolilla == bolillaSacada.numeroBolilla)){
-                bolillaSacada = new Bolilla(rnd.Next(0, limite));
-            }
-            BolillasSacadas.Add(bolillaSacada);
-            Bolillas.Remove(bolillaSacada);
-        }
+        List<Bolilla> bolillasSacadas = logica.SacarBolillas(this, cantidadBolillasASacarEnLaJugada);
 
-        return BolillasSacadas;
+        Bolillas = Bolillas.Except(bolillasSacadas).ToList();
+
+        return bolillasSacadas;
     }
 
     public bool CompararRespuesta(List<Bolilla> bolillasSacadas, List<Bolilla> jugada)
@@ -57,8 +52,7 @@ public class Bolillero : IBolillero
         {
             bolillas.Add(new Bolilla(numero));
         }
-        var lista = GeneradorAzar(jugada.Count());
-        Console.WriteLine("lista girada: " + lista);
+        var lista = SacarBolillas(jugada.Count());
         bool resultado = CompararRespuesta(lista, bolillas);
         return resultado;
     }

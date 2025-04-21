@@ -8,9 +8,10 @@ namespace TestUnitario;
 
 public class BolilleroXUnit
 {
-    IBolillero bolillero = new BolilleroTest(10);
+    ILogica logicaTest = new LogicaPrimero();
+    Bolillero bolillero;
 
-    public BolilleroXUnit() => bolillero  = new BolilleroTest(10);
+    public BolilleroXUnit() => bolillero  = new Bolillero(10, logicaTest);
 
     [Fact]
     public void VerificarCantidadBolilleroAlCrearBolillero()
