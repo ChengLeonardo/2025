@@ -69,22 +69,30 @@ public class Bolillero : IClonable<Bolillero>
 
     public long JugarNVeces(List<int> jugada, int vecesJugar)
     {
-        Jugar(jugada);
+        long resultadoAcertado = 0;
+        for(int i = 0; i < vecesJugar; i++)
+        {
+            if(Jugar(jugada))
+            {
+                resultadoAcertado++;
+            }
+            ReingresarBolilla();
+        }
+        return resultadoAcertado;
     }
 
     public Bolillero[] ClonarSiMismo(int cantidadDeClones)
     {
         Bolillero[] bolilleros = new Bolillero[cantidadDeClones];
 
-        List<Bolillero> bolilleros1 = new List<Bolillero>(cantidadDeClones);
         // bolilleros1.Add(this);
         // while(bolilleros1.Count() + bolilleros.Count() <= cantidadDeClones)
         // {
         //     bolilleros1.AddRange(bolilleros1);
         // }
-        for(int i = 0; i <= cantidadDeClones; i++)
+        for(int i = 0; i < cantidadDeClones; i++)
         {
-            bolilleros[i] = this;
+            bolilleros[i] = new Bolillero(this.Bolillas.Count, this.logica);
         }
         return bolilleros;
     }

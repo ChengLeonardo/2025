@@ -4,14 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Biblioteca;
+using System.Numerics;
 namespace TestUnitario;
 
 public class BolilleroXUnit
 {
     ILogica logicaTest = new LogicaPrimero();
+    ILogica logicaTestRandom = new LogicaRandom();
     Bolillero bolillero;
-
-    public BolilleroXUnit() => bolillero  = new Bolillero(10, logicaTest);
+    Bolillero bolilleroRandom;
+    Simulador simulador;
+    public BolilleroXUnit(){
+        bolilleroRandom = new Bolillero(30, logicaTestRandom);
+        bolillero  = new Bolillero(10, logicaTest);
+        this.simulador = new Simulador();
+    }
 
     [Fact]
     public void VerificarCantidadBolilleroAlCrearBolillero()
@@ -58,4 +65,12 @@ public class BolilleroXUnit
 
         //no estoy seguro si es lo que se pide hacer. 
     } 
+    [Fact]
+    public void SimulacionConHilos()
+    {
+        long valorReal = (long)simulador.SimulacionConHilo(bolillero, new List<int>{0, 1, 2, 3, 4, 5}, 10_000_000, 6);
+        double teoria = simulador.Probabilidad(bolilleroRandom, 6);
+        Assert.Equal(valorReal, 2134);
+        Assert.Equal(teoria, valorReal/10_000_000, 10);
+    }
 }
