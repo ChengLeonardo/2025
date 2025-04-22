@@ -64,6 +64,7 @@ public class Bolillero : IClonable<Bolillero>
     public void ReingresarBolilla()
     {
         Bolillas.AddRange(BolillasAfueras);
+        Bolillas.OrderBy(Bolilla => Bolilla.numeroBolilla).ToList();
         BolillasAfueras.Clear();
     }
 
