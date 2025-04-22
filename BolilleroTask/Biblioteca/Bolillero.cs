@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace Biblioteca;
 
-public class Bolillero
+public class Bolillero : IClonable<Bolillero>
 {
     public List<Bolilla> Bolillas {get;set;} = new List<Bolilla>();
 
     public ILogica logica { get; init; }
+
+    public List<Bolilla> BolillasAfueras { get; set; } = new List<Bolilla>();
 
     public Bolillero(int cantidadBolillasBolillero, ILogica logica)
     {
@@ -33,6 +35,8 @@ public class Bolillero
 
         Bolillas = Bolillas.Except(bolillasSacadas).ToList();
 
+        BolillasAfueras = bolillasSacadas;
+
         return bolillasSacadas;
     }
 
@@ -45,7 +49,7 @@ public class Bolillero
         return resultado;
     }
 
-    public Task<bool> Jugar(List<int> jugada)
+    public bool Jugar(List<int> jugada)
     {
         List<Bolilla> bolillas = new List<Bolilla>();
         foreach(int numero in jugada)
@@ -53,12 +57,35 @@ public class Bolillero
             bolillas.Add(new Bolilla(numero));
         }
         var lista = SacarBolillas(jugada.Count());
-        Task<bool> resultado = new Task<bool>(() => CompararRespuesta(lista, bolillas));
+        bool resultado = CompararRespuesta(lista, bolillas);
         return resultado;
     }
 
-    public List<bool> JugarNVeces(List<int> jugada, int vecesJugar)
+    public void ReingresarBolilla()
+    {
+        Bolillas.AddRange(BolillasAfueras);
+        BolillasAfueras.Clear();
+    }
+
+    public long JugarNVeces(List<int> jugada, int vecesJugar)
     {
         Jugar(jugada);
+    }
+
+    public Bolillero[] ClonarSiMismo(int cantidadDeClones)
+    {
+        Bolillero[] bolilleros = new Bolillero[cantidadDeClones];
+
+        List<Bolillero> bolilleros1 = new List<Bolillero>(cantidadDeClones);
+        // bolilleros1.Add(this);
+        // while(bolilleros1.Count() + bolilleros.Count() <= cantidadDeClones)
+        // {
+        //     bolilleros1.AddRange(bolilleros1);
+        // }
+        for(int i = 0; i <= cantidadDeClones; i++)
+        {
+            bolilleros[i] = this;
+        }
+        return bolilleros;
     }
 }

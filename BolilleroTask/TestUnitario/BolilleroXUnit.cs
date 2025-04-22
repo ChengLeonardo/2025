@@ -25,6 +25,7 @@ public class BolilleroXUnit
         List<int> bolilla = new List<int>(){0};
         Assert.True(bolillero.Jugar(bolilla));
         Assert.True(bolillero.Bolillas.Count() == 9);
+        Assert.True(bolillero.BolillasAfueras.Count() == 1);
         //no tengo un lugar donde simule afuera del bolillero, no se si es necesario y no lo dice en el texto,entonces no lo hice
     }
     [Fact]
@@ -33,7 +34,7 @@ public class BolilleroXUnit
         List<int> bolilla = new List<int>(){0};
         Assert.True(bolillero.Jugar(bolilla));
         Assert.True(bolillero.Bolillas.Count() == 9);
-        bolillero.GenerarBolillas(10);
+        bolillero.ReingresarBolilla();
         Assert.Equal(10, bolillero.Bolillas.Count());
     }
 
