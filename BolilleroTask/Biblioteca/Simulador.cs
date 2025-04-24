@@ -10,6 +10,7 @@ public class Simulador
     }
     public double SimulacionConHilo(Bolillero bolillero, List<int> jugada, int vecesJugar, int cantidadHilosAUsar)
     {
+        int cantidadBolillasbolillero = bolillero.Bolillas.Count;
         Bolillero[] bolilleros = bolillero.ClonarSiMismo(cantidadHilosAUsar);
         int repeticionPorHilo = vecesJugar / cantidadHilosAUsar;
 
@@ -31,23 +32,20 @@ public class Simulador
 
     }
 
-    BigInteger Factorial(int n){
-        BigInteger resultado = 1;
+    long Factorial(int n){
+        long resultado = 1;
         for (int i = 2; i <= n; i++){
             resultado *= i;
         }
         return resultado;
     }
 
-    public double Probabilidad(Bolillero bolillero, int longitudJugada){
+    public double Probabilidad(Bolillero bolillero, int longitudJugada, int cantidadDeJugadas){
         int cantidadBolillas = bolillero.Bolillas.Count;
-        BigInteger OrdenPosibles = Factorial(cantidadBolillas);
+        
+        long OrdenPosibles = Factorial(cantidadBolillas) / Factorial(cantidadBolillas - longitudJugada);
 
-        BigInteger ordenNoNecesitado = Factorial(cantidadBolillas - longitudJugada);
-
-        double OrdenNecesario = (double)(OrdenPosibles/ordenNoNecesitado);
-
-        double resultado =  1 / OrdenNecesario;
+        double resultado =  cantidadDeJugadas / OrdenPosibles;
 
         return resultado;
     }

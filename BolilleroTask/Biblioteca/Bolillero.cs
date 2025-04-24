@@ -60,11 +60,11 @@ public class Bolillero : IClonable<Bolillero>
         bool resultado = CompararRespuesta(lista, bolillas);
         return resultado;
     }
-
     public void ReingresarBolilla()
     {
         Bolillas.AddRange(BolillasAfueras);
         Bolillas.OrderBy(Bolilla => Bolilla.numeroBolilla).ToList();
+        logica.OrdenarBolillero(this);
         BolillasAfueras.Clear();
     }
 
