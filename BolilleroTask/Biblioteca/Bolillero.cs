@@ -79,6 +79,7 @@ public class Bolillero : IClonable<Bolillero>
             }
             ReingresarBolilla();
         }
+        System.Console.WriteLine("fin de este bolillero");
         return resultadoAcertado;
     }
 

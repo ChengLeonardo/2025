@@ -15,7 +15,7 @@ public class BolilleroXUnit
     Bolillero bolilleroRandom;
     Simulador simulador;
     public BolilleroXUnit(){
-        bolilleroRandom = new Bolillero(5, logicaTestRandom);
+        bolilleroRandom = new Bolillero(20, logicaTestRandom);
         bolillero  = new Bolillero(10, logicaTest);
         this.simulador = new Simulador();
     }
@@ -68,8 +68,8 @@ public class BolilleroXUnit
     [Fact]
     public void SimulacionConHilos()//Expansion de dominio calentar sandwich
     {
-        //16:16
-        int cantidadDeTiradas = 1_000_000;
+        
+        int cantidadDeTiradas = 1_000_000_000;
         List<int> listaJugada = new List<int>{0, 2, 1, 4};
 
         double valorReal = simulador.SimulacionConHilo(bolilleroRandom, listaJugada, cantidadDeTiradas, 12);

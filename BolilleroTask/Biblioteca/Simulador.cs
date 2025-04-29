@@ -1,5 +1,3 @@
-using System.Numerics; 
-
 namespace Biblioteca;
 public class Simulador
 {
@@ -10,19 +8,23 @@ public class Simulador
     }
     public double SimulacionConHilo(Bolillero bolillero, List<int> jugada, int vecesJugar, int cantidadHilosAUsar)
     {
+        int repeticionPorHilo = vecesJugar / cantidadHilosAUsar;
         int cantidadBolillasbolillero = bolillero.Bolillas.Count;
         Bolillero[] bolilleros = bolillero.ClonarSiMismo(cantidadHilosAUsar);
-        int repeticionPorHilo = vecesJugar / cantidadHilosAUsar;
 
         double acum = 0;
-
+        
+        System.Console.WriteLine("empieza a crear bolilleros");
         Task<long>[] simulaciones = new Task<long>[cantidadHilosAUsar];
         for(int i = 0; i < cantidadHilosAUsar; i++)
         {
+            Console.WriteLine($"Bolillero:  {i}");
             var clon = bolilleros[i];
             simulaciones[i] =
                 Task.Run(() => clon.JugarNVeces(jugada, repeticionPorHilo));
         }
+
+        System.Console.WriteLine("fin de crear");
 
         Task.WaitAll(simulaciones);
 
@@ -31,6 +33,7 @@ public class Simulador
         return acum;
 
     }
+
 
     long Factorial(int n){
         long resultado = 1;
