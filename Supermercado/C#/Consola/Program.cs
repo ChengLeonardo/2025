@@ -9,6 +9,8 @@ Console.WriteLine("2. Eliminar producto");
 Console.WriteLine("3. Modificar producto");
 System.Console.WriteLine("4. Mostrar productos");
 Console.WriteLine("5. Salir");
+Console.WriteLine("6. Comprar");
+Console.WriteLine("===================================");
 System.Console.WriteLine("Seleccione una opcion: ");
 string opcion = Console.ReadLine();
 while(opcion != "5")
@@ -72,6 +74,53 @@ while(opcion != "5")
         case "5":
             System.Console.WriteLine("Saliendo de la tienda...");
             return;
+        case "6":
+            Console.WriteLine("Ingrese su nombre:");
+            string nombreCliente = Console.ReadLine();
+            Console.WriteLine("Ingrese su apellido:");
+            string apellidoCliente = Console.ReadLine();
+            Cliente cliente = new Cliente(nombreCliente, apellidoCliente);
+            if (tienda.ClienteExiste(cliente))
+            {
+                System.Console.WriteLine("Cliente ya existe, se usara el cliente existente.");
+            }
+            else
+            {
+                tienda.AgregarCliente(cliente);
+                System.Console.WriteLine("Cliente agregado correctamente.");
+            }
+            Ticket ticket = new Ticket { Cliente = cliente, Fecha = DateTime.Now };
+            List<ItemTicket> itemsTicket = new List<ItemTicket>();
+            while(true)
+            {
+                System.Console.WriteLine("Seleccione un producto para agregar al ticket (o 'salir' para finalizar):");
+                tienda.MostrarProductos();
+                string productoSeleccionado = Console.ReadLine();
+                if (productoSeleccionado.ToLower() == "salir")
+                {
+                    break;
+                }
+                Producto productoTicket = tienda.Productos.FirstOrDefault(p => p.Nombre == productoSeleccionado);
+                if (productoTicket == null)
+                {
+                    System.Console.WriteLine("Producto no encontrado, por favor intente nuevamente.");
+                    continue;
+                }
+                System.Console.WriteLine("Ingrese la cantidad:");
+                int cantidad = int.Parse(Console.ReadLine());
+                if (cantidad <= 0 || cantidad > productoTicket.Stock)
+                {
+                    System.Console.WriteLine("Cantidad no valida, por favor intente nuevamente.");
+                    continue;
+                }
+                ItemTicket itemTicket = new ItemTicket(productoTicket, cantidad);
+                ticket.AgregarItem(itemTicket);
+            }
+            tienda.Vender(ticket);
+            cliente.Tickets.Add(ticket);
+            System.Console.WriteLine("Ticket generado correctamente.");
+            ticket.InformacionTicket();
+            break;
         default:
             System.Console.WriteLine("Opcion no valida, por favor intetntet nuevamente.");
             break;
@@ -84,6 +133,8 @@ while(opcion != "5")
     Console.WriteLine("3. Modificar producto");
     System.Console.WriteLine("4. Mostrar productos");
     Console.WriteLine("5. Salir");
+    Console.WriteLine("6. Comprar");
+    Console.WriteLine("===================================");
     System.Console.WriteLine("Seleccione una opcion: ");
 
     opcion = Console.ReadLine();
